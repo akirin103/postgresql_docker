@@ -4,22 +4,6 @@ PostgreSQLの学習用のリポジトリです。
 
 <br />
 
-参考
-
-- [PostgreSQLにおけるデータベース、スキーマ、テーブルの関係](https://www.dbonline.jp/postgresql/schema/index1.html)
-
-- [psqlコマンドのインストール](https://zenn.dev/hdmt/articles/80e12573ec3a9051624b)
-
-- [PostgreSql コマンドの覚え書き](https://qiita.com/mm36/items/1801573a478cb2865242)
-
-- [【初心者向け】PostgreSQLのロールについて分かり易く解説](https://eng-entrance.com/postgresql-role)
-
-- [PostgreSQLのロール](https://qiita.com/nuko_yokohama/items/085b75ee4c0938936ab9)
-
-- [PostgreSQL の Public ロールと Public スキーマ](https://www.se-from30.com/it/postgresql-role-and-schema/)
-
-<br />
-
 ## DB、スキーマ作成〜権限設定まで
 
 1. スーパーユーザでログインする。  
@@ -102,3 +86,25 @@ PostgreSQLの学習用のリポジトリです。
    # スキーマ一覧
    \dn
    ```
+
+## コンテナ初期化時にSQLを実行する
+
+コンテナの`/docker-entrypoint-initdb.d/`に`*.sql`や`*.sh`を置くことで、初期化処理が可能。
+
+<br />
+
+参考
+
+- [PostgreSQLにおけるデータベース、スキーマ、テーブルの関係](https://www.dbonline.jp/postgresql/schema/index1.html)
+
+- [psqlコマンドのインストール](https://zenn.dev/hdmt/articles/80e12573ec3a9051624b)
+
+- [PostgreSql コマンドの覚え書き](https://qiita.com/mm36/items/1801573a478cb2865242)
+
+- [【初心者向け】PostgreSQLのロールについて分かり易く解説](https://eng-entrance.com/postgresql-role)
+
+- [PostgreSQLのロール](https://qiita.com/nuko_yokohama/items/085b75ee4c0938936ab9)
+
+- [PostgreSQL の Public ロールと Public スキーマ](https://www.se-from30.com/it/postgresql-role-and-schema/)
+
+- [Docker Hub公式PostgreSQLで初期化ずみデータベースコンテナを作る](https://qiita.com/hirosemi/items/199a3c753130c12d52f1)
