@@ -27,12 +27,23 @@ CREATE TABLE testschema.orders (
 
 CREATE TABLE testschema.order_items (
   order_item_id SERIAL PRIMARY KEY,
-  order_id INT NOT NULL,
-  product_id INT NOT NULL,
-  quantity INT NOT NULL,
-  price NUMERIC(10, 2) NOT NULL,
-  FOREIGN KEY (order_id) REFERENCES testschema.orders (order_id),
-  FOREIGN KEY (product_id) REFERENCES testschema.products (product_id)
+  order_id INT,
+  product_id INT,
+  quantity INT,
+  price NUMERIC(10, 2),
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (order_id) REFERENCES testschema.orders (order_id) ON DELETE SET NULL,
+  FOREIGN KEY (product_id) REFERENCES testschema.products (product_id) ON DELETE SET NULL
+);
+
+CREATE TABLE testschema.order_items_history (
+  id SERIAL PRIMARY KEY,
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  old_order_item_id INT NOT NULL,
+  old_order_id INT NOT NULL,
+  old_product_id INT NOT NULL,
+  old_quantity INT NOT NULL,
+  old_price NUMERIC(10, 2) NOT NULL
 );
 
 INSERT INTO testschema.users (username, email, password) VALUES
@@ -56,3 +67,32 @@ INSERT INTO testschema.order_items (order_id, product_id, quantity, price) VALUE
   (2, 3, 3, 9000.00),
   (3, 1, 3, 3000.00),
   (3, 2, 2, 4000.00);
+
+CREATE OR REPLACE FUNCTION update_timestamp()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO testschema.order_items_history(
+        old_order_item_id,
+        old_order_id,
+        old_product_id,
+        old_quantity,
+        old_price
+    )
+    VALUES
+    (
+        OLD.order_item_id,
+        OLD.order_id,
+        OLD.product_id,
+        OLD.quantity,
+        OLD.price
+    );
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER update_timestamp_trigger
+AFTER UPDATE ON testschema.order_items
+FOR EACH ROW
+EXECUTE PROCEDURE update_timestamp();
