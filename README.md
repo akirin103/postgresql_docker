@@ -94,7 +94,19 @@ PostgreSQLの学習用のリポジトリです。
 
    # スキーマ一覧
    \dn
+
+   # テーブル一覧
+   \dt
+   
+   List of relations
+    Schema |            Name            | Type  | Owner 
+   --------+----------------------------+-------+-------
+    public | xxxxxxxxxxxxxxx            | table | user
+
+   # ログアウト
+   \q
    ```
+   
 
 ## コンテナ初期化時にSQLを実行する
 
